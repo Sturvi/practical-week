@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Z3/Z3.iml" filepath="$PROJECT_DIR$/Z3/Z3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Z4/Z4.iml" filepath="$PROJECT_DIR$/Z4/Z4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Z5/Z5.iml" filepath="$PROJECT_DIR$/Z5/Z5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Z6/Z6.iml" filepath="$PROJECT_DIR$/Z6/Z6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/practical-week.iml" filepath="$PROJECT_DIR$/practical-week.iml" />
+    </modules>
+  </component>
+</project>
