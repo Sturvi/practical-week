@@ -2,7 +2,7 @@ import java.util.SortedMap;
 
 public class Main {
     public static void main(String[] args) {
-        Rhombuses rhombuses = new Rhombuses(50, 60, 120, "green");
+        /*Rhombuses rhombuses = new Rhombuses(50, 60, 120, "green");
         Romb2 rhombuses2 = new Romb2 (50, 60, 120, "green");
 
 
@@ -27,7 +27,17 @@ public class Main {
         System.out.println(rhombuses2.color);
 
         System.out.println();
-        System.out.println(50 * Math.sqrt(2 - (2 * Math.sin(Math.toRadians(10)))));
+        System.out.println(Math.sin(Math.toRadians(170)));
+        System.out.println(Math.sin(Math.toRadians(10)));
+        System.out.println(Math.toRadians(170) == Math.sin(Math.toRadians(10)));
 
+        double b = -5.56;
+        System.out.println(b);*/
+
+
+        Parallelogram parallelogram = new Parallelogram(6, 10, 30, 150, "green");
+
+        System.out.println(parallelogram.getHeight());
+        System.out.println(parallelogram.getHeight2());
     }
 }

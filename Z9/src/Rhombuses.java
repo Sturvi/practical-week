@@ -12,7 +12,7 @@ public class Rhombuses extends Quadrangle implements Figure {
     public double area() {
         double diogonal1 = 2 * a * Math.sin(Math.toRadians(alpha / 2));
         double diogonal2 = 2 * a * Math.sin (Math.toRadians(beta / 2));
-        return (diogonal1 * diogonal2 ) / 2;
+        return round((diogonal1 * diogonal2 ) / 2, 4) ;
     }
 
     @Override
@@ -24,16 +24,25 @@ public class Rhombuses extends Quadrangle implements Figure {
     double getLargeDiagonal() {
         double diogonal1 = 2 * a * Math.sin(Math.toRadians(alpha / 2));
         double diogonal2 = 2 * a * Math.sin(Math.toRadians(beta / 2));
-        return Math.max(diogonal2, diogonal1);
+        return round(Math.max(diogonal2, diogonal1), 4) ;
     }
 
     @Override
     double getHeight() {
-        return area() / a;
+        return round(area() / a, 5) ;
     }
 
     @Override
     String getColor() {
         return color;
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 }
+

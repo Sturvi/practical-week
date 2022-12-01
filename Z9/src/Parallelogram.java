@@ -34,4 +34,8 @@ public class Parallelogram extends Quadrangle implements Figure{
     String getColor() {
         return color;
     }
+
+/*    double getHeight2() {
+        return a * Math.min(a * Math.sin(Math.toRadians(alpha)), b * Math.sin(Math.toRadians(beta)));
+    }*/
 }
