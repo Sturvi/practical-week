@@ -9,30 +9,27 @@ public class Rhombuses extends Quadrangle implements Figure {
     }
 
     @Override
-    public double getArea() {
-        double diogonal1 = 2 * a * Math.sin(alpha / 2);
-        double diogonal2 = 2 * a * Math.sin(beta / 2);
+    public double area() {
+        double diogonal1 = 2 * a * Math.sin(Math.toRadians(alpha / 2));
+        double diogonal2 = 2 * a * Math.sin (Math.toRadians(beta / 2));
         return (diogonal1 * diogonal2 ) / 2;
     }
 
     @Override
-    public double getPerimeter() {
+    public double perimeter() {
         return a * 4;
     }
 
     @Override
     double getLargeDiagonal() {
-        double diogonal1 = 2 * a * Math.sin(alpha / 2);
-        double diogonal2 = 2 * a * Math.sin(beta / 2);
-        return diogonal1 > diogonal2 ? diogonal1 : diogonal2;
+        double diogonal1 = 2 * a * Math.sin(Math.toRadians(alpha / 2));
+        double diogonal2 = 2 * a * Math.sin(Math.toRadians(beta / 2));
+        return Math.max(diogonal2, diogonal1);
     }
 
     @Override
     double getHeight() {
-        double diogonal1 = 2 * a * Math.sin(alpha / 2);
-        double diogonal2 = 2 * a * Math.sin(beta / 2);
-        double s = (diogonal1 * diogonal2 ) / 2;
-        return s / a;
+        return area() / a;
     }
 
     @Override

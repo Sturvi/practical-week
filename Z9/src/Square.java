@@ -5,7 +5,7 @@ public class Square extends Quadrangle implements Figure {
 
     @Override
     double getLargeDiagonal() {
-        return a * Math.sqrt(a);
+        return a * Math.sqrt(2);
     }
 
     @Override
@@ -19,12 +19,12 @@ public class Square extends Quadrangle implements Figure {
     }
 
     @Override
-    public double getArea() {
+    public double area() {
         return a*a;
     }
 
     @Override
-    public double getPerimeter() {
+    public double perimeter() {
         return a * 4;
     }
 }

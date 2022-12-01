@@ -1,4 +1,4 @@
 public interface Figure {
-    double getArea();
-    double getPerimeter();
+    double area();
+    double perimeter();
 }
