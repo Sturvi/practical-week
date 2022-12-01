@@ -6,9 +6,16 @@ public abstract class ChessPiece {
         this.color = color;
     }
 
-    public abstract String getColor ();
+    public String getColor (){
+        return color;
+    };
 
     public abstract boolean canMoveToPosition (ChessBoard chessBoard, int line, int column, int toLine, int toColumn);
 
     public abstract String getSymbol();
+
+    protected boolean checkBoard (int check){
+        if (check >=0 && check < 7) return true;
+        return false;
+    }
 }

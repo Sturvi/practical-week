@@ -6,11 +6,6 @@ public class Horse extends ChessPiece {
     }
 
     @Override
-    public String getColor() {
-        return color;
-    }
-
-    @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
         if (checkBoard(toLine) && checkBoard(toColumn)){
             if ((Math.abs(line-toLine) == 2 && Math.abs(column-toColumn) == 1) ||
@@ -26,8 +21,5 @@ public class Horse extends ChessPiece {
         return "H";
     }
 
-    private boolean checkBoard (int chek){
-        if (chek >=0 && chek < 7) return true;
-        return false;
-    }
+
 }
