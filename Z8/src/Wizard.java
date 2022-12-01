@@ -22,7 +22,7 @@ public class Wizard extends Player{
     @Override
     boolean doDamage() {
         if (manaLevel >= 10){
-            manaLevel -= manaLevel - 10;
+            manaLevel -= 10;
             return true;
         } else
             return false;

@@ -20,9 +20,9 @@ public class Parallelogram extends Quadrangle implements Figure{
 
     @Override
     double getLargeDiagonal() {
-        double diog1 = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - (2 * a * b * Math.cos(alpha)));
-        double diog2 = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - (2 * a * b * Math.cos(beta)));
-        return diog1 > diog2 ? diog1 : diog2;
+        double diag1 = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - (2 * a * b * Math.cos(alpha)));
+        double diag2 = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) - (2 * a * b * Math.cos(beta)));
+        return diag1 > diag2 ? diag1 : diag2;
     }
 
     @Override
