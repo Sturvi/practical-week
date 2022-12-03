@@ -15,7 +15,7 @@ public abstract class ChessPiece {
     public abstract String getSymbol();
 
     protected boolean checkBoard (int check){
-        if (check >=0 && check < 7) return true;
+        if (check >=0 && check <= 7) return true;
         return false;
     }
 }
