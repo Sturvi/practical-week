@@ -6,13 +6,16 @@ public class Pawn extends ChessPiece {
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-        if (!checkBoard(toLine) || !checkBoard(toColumn)) return false;
+        if (!errorCheck(chessBoard, line, column, toLine, toColumn))
+            return false;
+
         if (column == toColumn) {
             if (getColor().equals("White")) {
                 switch (toLine - line) {
                     case (1):
                         return true;
                     case (2):
+                        if (chessBoard.board[line+1][column] != null) return false;
                         return line == 1 ? true : false;
                     default:
                         return false;
@@ -22,6 +25,7 @@ public class Pawn extends ChessPiece {
                     case (1):
                         return true;
                     case (2):
+                        if (chessBoard.board[line-1][column] != null) return false;
                         return line == 6 ? true : false;
                     default:
                         return false;
