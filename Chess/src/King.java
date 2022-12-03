@@ -9,8 +9,10 @@ public class King extends ChessPiece {
             return false;
 
         if ((Math.abs(line-toLine) == 0 || Math.abs(line-toLine) == 1) &&
-                (Math.abs(column-toColumn) == 0 || Math.abs(column-toColumn) == 1))
+                (Math.abs(column-toColumn) == 0 || Math.abs(column-toColumn) == 1)) {
+            check = false;
             return true;
+        }
         else
             return false;
     }
