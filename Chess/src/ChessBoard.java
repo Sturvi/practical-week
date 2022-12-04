@@ -1,6 +1,8 @@
 public class ChessBoard {
     public ChessPiece[][] board = new ChessPiece[8][8]; // creating a field for game
     String nowPlayer;
+    Integer pawnLine;
+    Integer pawnColumn;
 
     public ChessBoard(String nowPlayer) {
         this.nowPlayer = nowPlayer;
@@ -22,8 +24,29 @@ public class ChessBoard {
                     board[startLine][startColumn].check = false;
                 }
 
-                board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
-                board[startLine][startColumn] = null; // set null to previous cell
+                if (board[startLine][startColumn].getSymbol().equals("P") && startColumn != endColumn) {
+                    board[endLine][endColumn] = board[startLine][startColumn];
+                    board[startLine][startColumn] = null;
+
+                    if (nowPlayer.equals("White")){
+                        board[endLine-1][endColumn] = null;
+                    } else {
+                        board[endLine+1][endColumn] = null;
+                    }
+
+                } else {
+                    board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
+                    board[startLine][startColumn] = null; // set null to previous cell
+                }
+
+                resetPossibleToTakeOnThePassage();
+
+                if (board[endLine][endColumn].getSymbol().equals("P") &&
+                        ((Pawn)(board[endLine][endColumn])).isPossibleToTakeOnThePassage()){
+                    pawnLine=endLine;
+                    pawnColumn=endColumn;
+                }
+
                 this.nowPlayer = this.nowPlayerColor().equals("White") ? "Black" : "White";
 
                 return true;
@@ -71,6 +94,7 @@ public class ChessBoard {
                     board[0][3] = new Rook("White");   // move Rook
                     board[0][3].check = false;
                     nowPlayer = "Black";  // next turn
+                    resetPossibleToTakeOnThePassage();
                     return true;
                 } else return false;
             } else return false;
@@ -88,6 +112,7 @@ public class ChessBoard {
                     board[7][3] = new Rook("Black");   // move Rook
                     board[7][3].check = false;
                     nowPlayer = "White";  // next turn
+                    resetPossibleToTakeOnThePassage();
                     return true;
                 } else return false;
             } else return false;
@@ -109,6 +134,7 @@ public class ChessBoard {
                     board[0][5] = new Rook("White");   // move Rook
                     board[0][5].check = false;
                     nowPlayer = "Black";  // next turn
+                    resetPossibleToTakeOnThePassage();
                     return true;
                 } else return false;
             } else return false;
@@ -126,9 +152,20 @@ public class ChessBoard {
                     board[7][5] = new Rook("Black");   // move Rook
                     board[7][5].check = false;
                     nowPlayer = "White";  // next turn
+                    resetPossibleToTakeOnThePassage();
                     return true;
                 } else return false;
             } else return false;
+        }
+    }
+
+    private void resetPossibleToTakeOnThePassage() {
+        if(pawnLine != null) {
+            if (board[pawnLine][pawnColumn] != null && board[pawnLine][pawnColumn].getSymbol().equals("P")){
+                ((Pawn)(board[pawnLine][pawnColumn])).setPossibleToTakeOnThePassage(false);
+            }
+            pawnLine = null;
+            pawnColumn= null;
         }
     }
 }

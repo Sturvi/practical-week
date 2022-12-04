@@ -56,11 +56,11 @@ public class Pawn extends ChessPiece {
                 }
             }
 
-            if (Math.abs(column - toColumn) == 1 && toLine - line == 1 && chessBoard.board[toLine][toColumn] != null){
+            if (Math.abs(column - toColumn) == 1 && line - toLine == 1 && chessBoard.board[toLine][toColumn] != null){
                 return true;
             } else if (Math.abs(column - toColumn) == 1 && line - toLine == 1 && chessBoard.board[toLine][toColumn] == null) {
                 if (chessBoard.board[toLine+1][toColumn] != null &&
-                        chessBoard.board[toLine-1][toColumn].getSymbol().equals("P") &&
+                        chessBoard.board[toLine+1][toColumn].getSymbol().equals("P") &&
                         ((Pawn)(chessBoard.board[toLine+1][toColumn])).isPossibleToTakeOnThePassage()){
                     return true;
                 }
