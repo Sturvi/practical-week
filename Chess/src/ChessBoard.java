@@ -24,6 +24,7 @@ public class ChessBoard {
                     board[startLine][startColumn].check = false;
                 }
 
+                //Checking the capture on the pawn on the pass. else the usual move is being made.
                 if (board[startLine][startColumn].getSymbol().equals("P") && startColumn != endColumn) {
                     board[endLine][endColumn] = board[startLine][startColumn];
                     board[startLine][startColumn] = null;
@@ -33,7 +34,6 @@ public class ChessBoard {
                     } else {
                         board[endLine+1][endColumn] = null;
                     }
-
                 } else {
                     board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
                     board[startLine][startColumn] = null; // set null to previous cell
@@ -167,5 +167,17 @@ public class ChessBoard {
             pawnLine = null;
             pawnColumn= null;
         }
+    }
+
+    private boolean kingsUnderAttack(){
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (board[i][j] != null && board[i][j].getSymbol().equals("K") &&
+                        ((King)(board[i][j])).isUnderAttack(this, i, j)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
