@@ -19,6 +19,8 @@ public class ChessBoard {
 
             if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
 
+                ChessPiece[][] temporaryBoard = new board[][];
+
                 if (board[startLine][startColumn].getSymbol().equals("K") ||  // check position for castling
                         board[startLine][startColumn].getSymbol().equals("R")) {
                     board[startLine][startColumn].check = false;
@@ -37,6 +39,18 @@ public class ChessBoard {
                 } else {
                     board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
                     board[startLine][startColumn] = null; // set null to previous cell
+                }
+
+                if ((nowPlayer.equals("White") && whiteKingsUnderAttack()) ||
+                        (nowPlayer.equals("Black") && blackKingsUnderAttack())){
+                    board=temporaryBoard;
+                    System.out.println("Your King is under attack");
+                    return false;
+                }
+
+                if ((nowPlayer.equals("White") && blackKingsUnderAttack()) ||
+                        (nowPlayer.equals("Black") && whiteKingsUnderAttack())){
+                    System.out.println("Check");
                 }
 
                 resetPossibleToTakeOnThePassage();
@@ -169,10 +183,24 @@ public class ChessBoard {
         }
     }
 
-    private boolean kingsUnderAttack(){
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+    private boolean whiteKingsUnderAttack(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 if (board[i][j] != null && board[i][j].getSymbol().equals("K") &&
+                        board[i][j].getColor().equals("White") &&
+                        ((King)(board[i][j])).isUnderAttack(this, i, j)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean blackKingsUnderAttack(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] != null && board[i][j].getSymbol().equals("K") &&
+                        board[i][j].getColor().equals("Black") &&
                         ((King)(board[i][j])).isUnderAttack(this, i, j)){
                     return true;
                 }

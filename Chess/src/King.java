@@ -21,8 +21,8 @@ public class King extends ChessPiece {
         if (!checkBoard(line) || !checkBoard(column))
             return false;
 
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 if (board.board[i][j] != null && board.board[i][j].canMoveToPosition(board, i, j, line, column))
                     return true;
             }
