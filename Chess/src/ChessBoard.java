@@ -21,6 +21,8 @@ public class ChessBoard {
 
             if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
 
+                //creating a backup copy of the state of our board. If at the end of the turn the king is under attack,
+                // we return the state of the board back.
                 ChessPiece[][] temporaryBoard = cloneBoard(board);
 
                 if (board[startLine][startColumn].getSymbol().equals("K") ||  // check position for castling
@@ -43,20 +45,23 @@ public class ChessBoard {
                     board[startLine][startColumn] = null; // set null to previous cell
                 }
 
-                if ((nowPlayer.equals("White") && whiteKingsUnderAttack()) ||
-                        (nowPlayer.equals("Black") && blackKingsUnderAttack())){
-                    board=temporaryBoard;
-                    System.out.println("Your King is under attack");
-                    return false;
-                }
+                //Pawn to Queen Check
+                pawnToQueenCheck(endLine, endColumn);
 
+                //If the king is under attack after making a move, we cancel the move.
+                if (isKingUnderAttack(temporaryBoard)) return false;
+
+                //If the enemy king is under attack after your turn, we print a message about it.
                 if ((nowPlayer.equals("White") && blackKingsUnderAttack()) ||
                         (nowPlayer.equals("Black") && whiteKingsUnderAttack())){
                     System.out.println("Check");
                 }
 
+                //if the previous pawn that could have been picked up on the pass is still on the board, we remove
+                // from it the possibility of being knocked down in this way.
                 resetPossibleToTakeOnThePassage();
 
+                //If a pawn has taken 2 steps forward, theoretically it can be knocked down on the pass.
                 if (board[endLine][endColumn].getSymbol().equals("P") &&
                         ((Pawn)(board[endLine][endColumn])).isPossibleToTakeOnThePassage()){
                     pawnLine=endLine;
@@ -175,6 +180,8 @@ public class ChessBoard {
         }
     }
 
+    //if the previous pawn that could have been picked up on the pass is still on the board, we remove
+    // from it the possibility of being knocked down in this way.
     private void resetPossibleToTakeOnThePassage() {
         if(pawnLine != null) {
             if (board[pawnLine][pawnColumn] != null && board[pawnLine][pawnColumn].getSymbol().equals("P")){
@@ -217,5 +224,22 @@ public class ChessBoard {
             clonedBoard[i] = Arrays.copyOf(board[i], 8);
         }
         return clonedBoard;
+    }
+
+    private boolean isKingUnderAttack (ChessPiece[][] temporaryBoard){
+        if ((nowPlayer.equals("White") && whiteKingsUnderAttack()) ||
+                (nowPlayer.equals("Black") && blackKingsUnderAttack())){
+            board=temporaryBoard;
+            System.out.println("Your King is under attack");
+            return true;
+        }
+        return false;
+    }
+
+    private void pawnToQueenCheck(int line, int column){
+        if ((nowPlayer.equals("White") && line == 7 || (nowPlayer.equals("Black") && line == 0)) &&
+                board[line][column].getSymbol().equals("P")) {
+            board[line][column] = new Queen(nowPlayer);
+        }
     }
 }
