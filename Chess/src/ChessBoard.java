@@ -6,7 +6,6 @@ public class ChessBoard {
     String nowPlayer;
     Integer pawnLine;
     Integer pawnColumn;
-    boolean matt = false;
 
     public ChessBoard(String nowPlayer) {
         this.nowPlayer = nowPlayer;
@@ -271,20 +270,23 @@ public class ChessBoard {
 
         }
 
+        //if the king can escape from the attack, there is no checkmate!
         if (canTheKingLeave(kingLine, kingColumn)) return false;
 
         searchKingForAttackers(attackingLine, attackingColumn, kingLine, kingColumn);
 
+        //If the king cannot escape the attack and is attacked by more than 1 piece at the same time, then this is checkmate!
         if (attackingLine.size() > 1) return true;
 
+        //if the king is attacked by 1 piece and it can be knocked down, then this is not a checkmate.
         if (isUnderAttack(attackingLine.get(0), attackingColumn.get(0), nowPlayer.equals("White") ? "Black" : "White")) {
             return false;
         }
 
+        //if the path of attack can be blocked by another piece, then this is not a checkmate!
         if (isPossibleToBlockTheAttack(attackingLine.get(0), attackingColumn.get(0), kingLine, kingColumn))
             return false;
 
-        matt = true;
         return true;
     }
 
