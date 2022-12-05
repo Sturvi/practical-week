@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Queen extends ChessPiece {
     public Queen(String color) {
         super(color);
@@ -10,6 +12,14 @@ public class Queen extends ChessPiece {
             return new Rook(color).canMoveToPosition(chessBoard, line, column, toLine, toColumn);
         } else {
             return new Bishop(color).canMoveToPosition(chessBoard, line, column, toLine, toColumn);
+        }
+    }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){
+        if (line == toLine  || column == toColumn) {
+            new Rook(color).searchAttackedRoad (line, column, toLine, toColumn, attackingRoadLine, attackingRoadColumn);
+        } else {
+            new Bishop(color).searchAttackedRoad (line, column, toLine, toColumn, attackingRoadLine, attackingRoadColumn);
         }
     }
 

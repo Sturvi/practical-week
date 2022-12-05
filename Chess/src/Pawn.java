@@ -1,4 +1,5 @@
 import java.lang.annotation.ElementType;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Pawn extends ChessPiece {
@@ -72,6 +73,8 @@ public class Pawn extends ChessPiece {
 
         return false;
     }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){}
 
     @Override
     public String getSymbol() {

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Rook extends ChessPiece {
     public Rook(String color) {
         super(color);
@@ -27,6 +29,20 @@ public class Rook extends ChessPiece {
 
         check = false;
         return true;
+    }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){
+        if (column == toColumn) {
+            for (int i = Math.min(line + 1, toLine + 1); i < Math.max(line, toLine); i++) {
+                attackingRoadLine.add(i);
+                attackingRoadColumn.add(column);
+            }
+        } else if (line == toLine) {
+            for (int i = Math.min(column + 1, toColumn + 1); i < Math.max(column, toColumn); i++) {
+                attackingRoadLine.add(line);
+                attackingRoadColumn.add(i);
+            }
+        }
     }
 
     @Override

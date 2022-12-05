@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ChessBoard {
@@ -5,6 +6,7 @@ public class ChessBoard {
     String nowPlayer;
     Integer pawnLine;
     Integer pawnColumn;
+    boolean matt = false;
 
     public ChessBoard(String nowPlayer) {
         this.nowPlayer = nowPlayer;
@@ -35,10 +37,10 @@ public class ChessBoard {
                     board[endLine][endColumn] = board[startLine][startColumn];
                     board[startLine][startColumn] = null;
 
-                    if (nowPlayer.equals("White")){
-                        board[endLine-1][endColumn] = null;
+                    if (nowPlayer.equals("White")) {
+                        board[endLine - 1][endColumn] = null;
                     } else {
-                        board[endLine+1][endColumn] = null;
+                        board[endLine + 1][endColumn] = null;
                     }
                 } else {
                     board[endLine][endColumn] = board[startLine][startColumn]; // if piece can move, we moved a piece
@@ -53,8 +55,12 @@ public class ChessBoard {
 
                 //If the enemy king is under attack after your turn, we print a message about it.
                 if ((nowPlayer.equals("White") && blackKingsUnderAttack()) ||
-                        (nowPlayer.equals("Black") && whiteKingsUnderAttack())){
-                    System.out.println("Check");
+                        (nowPlayer.equals("Black") && whiteKingsUnderAttack())) {
+                    if (checkMatt()) {
+                        System.out.println("Matt! " + nowPlayerColor() + " wins!");
+                    } else {
+                        System.out.println("Check");
+                    }
                 }
 
                 //if the previous pawn that could have been picked up on the pass is still on the board, we remove
@@ -63,9 +69,9 @@ public class ChessBoard {
 
                 //If a pawn has taken 2 steps forward, theoretically it can be knocked down on the pass.
                 if (board[endLine][endColumn].getSymbol().equals("P") &&
-                        ((Pawn)(board[endLine][endColumn])).isPossibleToTakeOnThePassage()){
-                    pawnLine=endLine;
-                    pawnColumn=endColumn;
+                        ((Pawn) (board[endLine][endColumn])).isPossibleToTakeOnThePassage()) {
+                    pawnLine = endLine;
+                    pawnColumn = endColumn;
                 }
 
                 this.nowPlayer = this.nowPlayerColor().equals("White") ? "Black" : "White";
@@ -183,21 +189,21 @@ public class ChessBoard {
     //if the previous pawn that could have been picked up on the pass is still on the board, we remove
     // from it the possibility of being knocked down in this way.
     private void resetPossibleToTakeOnThePassage() {
-        if(pawnLine != null) {
-            if (board[pawnLine][pawnColumn] != null && board[pawnLine][pawnColumn].getSymbol().equals("P")){
-                ((Pawn)(board[pawnLine][pawnColumn])).setPossibleToTakeOnThePassage(false);
+        if (pawnLine != null) {
+            if (board[pawnLine][pawnColumn] != null && board[pawnLine][pawnColumn].getSymbol().equals("P")) {
+                ((Pawn) (board[pawnLine][pawnColumn])).setPossibleToTakeOnThePassage(false);
             }
             pawnLine = null;
-            pawnColumn= null;
+            pawnColumn = null;
         }
     }
 
-    private boolean whiteKingsUnderAttack(){
+    private boolean whiteKingsUnderAttack() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (board[i][j] != null && board[i][j].getSymbol().equals("K") &&
                         board[i][j].getColor().equals("White") &&
-                        ((King)(board[i][j])).isUnderAttack(this, i, j)){
+                        ((King) (board[i][j])).isUnderAttack(this, i, j)) {
                     return true;
                 }
             }
@@ -205,12 +211,12 @@ public class ChessBoard {
         return false;
     }
 
-    private boolean blackKingsUnderAttack(){
+    private boolean blackKingsUnderAttack() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (board[i][j] != null && board[i][j].getSymbol().equals("K") &&
                         board[i][j].getColor().equals("Black") &&
-                        ((King)(board[i][j])).isUnderAttack(this, i, j)){
+                        ((King) (board[i][j])).isUnderAttack(this, i, j)) {
                     return true;
                 }
             }
@@ -218,7 +224,7 @@ public class ChessBoard {
         return false;
     }
 
-    private ChessPiece[][] cloneBoard (ChessPiece[][] board){
+    private ChessPiece[][] cloneBoard(ChessPiece[][] board) {
         ChessPiece[][] clonedBoard = new ChessPiece[8][8];
         for (int i = 0; i < 8; i++) {
             clonedBoard[i] = Arrays.copyOf(board[i], 8);
@@ -226,20 +232,116 @@ public class ChessBoard {
         return clonedBoard;
     }
 
-    private boolean isKingUnderAttack (ChessPiece[][] temporaryBoard){
+    private boolean isKingUnderAttack(ChessPiece[][] temporaryBoard) {
         if ((nowPlayer.equals("White") && whiteKingsUnderAttack()) ||
-                (nowPlayer.equals("Black") && blackKingsUnderAttack())){
-            board=temporaryBoard;
+                (nowPlayer.equals("Black") && blackKingsUnderAttack())) {
+            board = temporaryBoard;
             System.out.println("Your King is under attack");
             return true;
         }
         return false;
     }
 
-    private void pawnToQueenCheck(int line, int column){
+    private void pawnToQueenCheck(int line, int column) {
         if ((nowPlayer.equals("White") && line == 7 || (nowPlayer.equals("Black") && line == 0)) &&
                 board[line][column].getSymbol().equals("P")) {
             board[line][column] = new Queen(nowPlayer);
         }
+    }
+
+    private boolean checkMatt() {
+        Integer kingLine = null;
+        Integer kingColumn = null;
+        ArrayList<Integer> attackingLine = new ArrayList<Integer>();
+        ArrayList<Integer> attackingColumn = new ArrayList<Integer>();
+
+        //search for the king
+        for (int i = 0; i < 8; i++) {
+            boolean exitCheck = false;
+            for (int j = 0; j < 8; j++) {
+
+                if (board[i][j] != null && board[i][j].getSymbol().equals("K") && !board[i][j].getColor().equals(nowPlayer)) {
+                    kingLine = i;
+                    kingColumn = j;
+                    exitCheck = true;
+                    break;
+                }
+            }
+            if (exitCheck) break;
+
+        }
+
+        if (canTheKingLeave(kingLine, kingColumn)) return false;
+
+        searchKingForAttackers(attackingLine, attackingColumn, kingLine, kingColumn);
+
+        if (attackingLine.size() > 1) return true;
+
+        if (isUnderAttack(attackingLine.get(0), attackingColumn.get(0), nowPlayer.equals("White") ? "Black" : "White")) {
+            return false;
+        }
+
+        return isPossibleToBlockTheAttack(attackingLine.get(0), attackingColumn.get(0), kingLine, kingColumn) ? false : true;
+    }
+
+    //search for the coordinates of all the pieces that attack the king.
+    private void searchKingForAttackers(ArrayList<Integer> attackingLine, ArrayList<Integer> attackingColumn, Integer kingLine, Integer kingColumn) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] != null && board[i][j].getColor().equals(nowPlayer) && board[i][j].canMoveToPosition(this, i, j, kingLine, kingColumn)) {
+                    attackingLine.add(i);
+                    attackingColumn.add(j);
+                }
+            }
+        }
+    }
+
+    private boolean canTheKingLeave(Integer kingLine, Integer kingColumn) {
+        for (int i = Math.max(0, kingLine - 1); i < Math.min(7, kingLine + 1); i++) {
+            for (int j = Math.max(0, kingColumn - 1); j < Math.min(7, kingColumn + 1); j++) {
+                if (board[i][j] == null && !isUnderAttack(i, j, nowPlayer) && !(i == kingLine && j == kingColumn))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isUnderAttack(int line, int column, String nowPlayer) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] != null && board[i][j].getColor().equals(nowPlayer) &&
+                        board[i][j].canMoveToPosition(this, i, j, line, column)) {
+                    if (board[i][j].getSymbol().equals("K") && isUnderAttack(line, column, nowPlayer)) {
+                        break;
+                    } else
+                        return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    private boolean isPossibleToBlockTheAttack(int attackerLine, int attackerColumn, int kingLine, int kingColumn) {
+        ArrayList<Integer> attackingRoadLine = new ArrayList<Integer>();
+        ArrayList<Integer> attackingRoadColumn = new ArrayList<Integer>();
+
+        board[attackerLine][attackerColumn].searchAttackedRoad(attackerLine, attackerColumn, kingLine, kingColumn, attackingRoadLine, attackingRoadColumn);
+
+        if (attackingRoadLine.size() == 0)
+            return false;
+        else {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (board[i][j] != null && !(i == kingLine && j == kingColumn) && !board[i][j].getColor().equals(nowPlayer)) {
+                        for (int k = 0; k < attackingRoadLine.size(); k++) {
+                            if (board[i][j].canMoveToPosition(this, i, j, attackingRoadLine.get(k), attackingRoadColumn.get(0)))
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class King extends ChessPiece {
     public King(String color) {
         super(color);
@@ -30,6 +32,8 @@ public class King extends ChessPiece {
 
         return false;
     }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){}
 
     @Override
     public String getSymbol() {
