@@ -281,7 +281,11 @@ public class ChessBoard {
             return false;
         }
 
-        return isPossibleToBlockTheAttack(attackingLine.get(0), attackingColumn.get(0), kingLine, kingColumn) ? false : true;
+        if (isPossibleToBlockTheAttack(attackingLine.get(0), attackingColumn.get(0), kingLine, kingColumn))
+            return false;
+
+        matt = true;
+        return true;
     }
 
     //search for the coordinates of all the pieces that attack the king.
@@ -311,12 +315,18 @@ public class ChessBoard {
             for (int j = 0; j < 8; j++) {
                 if (board[i][j] != null && board[i][j].getColor().equals(nowPlayer) &&
                         board[i][j].canMoveToPosition(this, i, j, line, column)) {
-                    if (board[i][j].getSymbol().equals("K") && isUnderAttack(line, column, nowPlayer)) {
-                        break;
+                    if (board[i][j].getSymbol().equals("K")) {
+                        ChessPiece[][] temp = cloneBoard(board);
+                        board[line][column] = board[i][j];
+                        board[i][j] = null;
+                        if (((King) (board[line][column])).isUnderAttack(this, line, column)) {
+                            board = temp;
+                            continue;
+                        }
+                        board = temp;
                     } else
                         return true;
                 }
-
             }
         }
         return false;
