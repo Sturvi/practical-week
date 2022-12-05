@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class ChessBoard {
     public ChessPiece[][] board = new ChessPiece[8][8]; // creating a field for game
     String nowPlayer;
@@ -19,7 +21,7 @@ public class ChessBoard {
 
             if (board[startLine][startColumn].canMoveToPosition(this, startLine, startColumn, endLine, endColumn)) {
 
-                ChessPiece[][] temporaryBoard = new board[][];
+                ChessPiece[][] temporaryBoard = cloneBoard(board);
 
                 if (board[startLine][startColumn].getSymbol().equals("K") ||  // check position for castling
                         board[startLine][startColumn].getSymbol().equals("R")) {
@@ -207,5 +209,13 @@ public class ChessBoard {
             }
         }
         return false;
+    }
+
+    private ChessPiece[][] cloneBoard (ChessPiece[][] board){
+        ChessPiece[][] clonedBoard = new ChessPiece[8][8];
+        for (int i = 0; i < 8; i++) {
+            clonedBoard[i] = Arrays.copyOf(board[i], 8);
+        }
+        return clonedBoard;
     }
 }

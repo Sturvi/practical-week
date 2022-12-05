@@ -1,3 +1,6 @@
+import java.lang.annotation.ElementType;
+import java.util.Arrays;
+
 public class Pawn extends ChessPiece {
 
     private boolean possibleToTakeOnThePassage = false;
