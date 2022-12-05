@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class ChessPiece {
     String color;
     boolean check = true;
@@ -31,4 +33,7 @@ public abstract class ChessPiece {
 
         return true;
     }
+
+    public abstract void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn);
+
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Horse extends ChessPiece {
 
 
@@ -16,6 +18,8 @@ public class Horse extends ChessPiece {
         else
             return false;
     }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){}
 
     @Override
     public String getSymbol() {

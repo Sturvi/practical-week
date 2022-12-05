@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Bishop extends ChessPiece {
 
     public Bishop(String color) {
@@ -31,6 +33,24 @@ public class Bishop extends ChessPiece {
         }
 
         return true;
+    }
+
+    public void searchAttackedRoad (int line, int column, int toLine, int toColumn, ArrayList<Integer> attackingRoadLine, ArrayList<Integer> attackingRoadColumn){
+        if (line - toLine == column - toColumn) {
+            int j = Math.min(column + 1, toColumn + 1);
+            for (int i = Math.min(line + 1, toLine + 1); i != Math.max(line, toLine); i++) {
+                attackingRoadLine.add(i);
+                attackingRoadColumn.add(j);
+                j++;
+            }
+        } else {
+            int j = Math.max(column - 1, toColumn - 1);
+            for (int i = Math.min(line + 1, toLine + 1); i != Math.max(line, toLine); i++) {
+                attackingRoadLine.add(i);
+                attackingRoadColumn.add(j);
+                j--;
+            }
+        }
     }
 
     @Override

@@ -34,10 +34,9 @@ public class Main {
         double b = -5.56;
         System.out.println(b);*/
 
-/*
         Parallelogram parallelogram = new Parallelogram(6, 10, 30, 150, "green");
 
         System.out.println(parallelogram.getHeight());
-        System.out.println(parallelogram.getHeight2());*/
+        System.out.println(parallelogram.getHeight2());
     }
 }
