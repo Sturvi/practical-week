@@ -3,10 +3,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        Integer x = 6;
-        test(x);
-        System.out.println(x);
-
+        System.out.println(Math.pow(11, 2));
 
     }
 
